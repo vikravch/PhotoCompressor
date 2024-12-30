@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">PhotoCompressor</string>
+    <string name="title_activity_quality_params">PhotoCompressor</string>
+    <string name="title_activity_quality_preview">QualityPreviewActivity</string>
+    <string name="select_image">Select Image</string>
+    <string name="next">Next</string>
+    <string name="summary">Summary:</string>
+    <string name="summary_template">Initial size: %1$d KB\nCompressed size: %2$d KB\nQuality: %3$d%%\nCompressed by %4$d%%\nIn KiloBytes difference: %5$d KB</string>
+    <string name="origin_photo_size">Origin photo size: %1$d KB</string>
+    <string name="compressed_photo_size">Compressed photo size: %1$d KB</string>
+    <string name="no_file_selected">No image selected</string>
+</resources>

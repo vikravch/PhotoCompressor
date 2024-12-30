@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PhotoCompressor</string>
+    <string name="title_activity_quality_params">PhotoCompressor</string>
+    <string name="title_activity_quality_preview">QualityPreviewActivity</string>
+    <string name="select_image">Выбрать фото</string>
+    <string name="next">Далее</string>
+    <string name="summary">Итог:</string>
+    <string name="summary_template"> Исходный размер: %1$d КБ\nСжатый размер: %2$d КБ\nКачество: %3$d%%\nСжатие на %4$d%%\nРазница в КБ: %5$d КБ</string>
+    <string name="origin_photo_size">Исходный размер фото: %1$d КБ</string>
+    <string name="compressed_photo_size">Размер сжатого фото: %1$d КБ</string>
+    <string name="no_file_selected">Изображение не выбрано</string>
+</resources>
