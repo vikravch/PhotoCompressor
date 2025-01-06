@@ -1,6 +1,8 @@
 package com.vikravch.compressor.activity.quality_params_activity
 
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,20 +12,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
 import coil.compose.AsyncImage
-import coil.request.CachePolicy
-import coil.request.ImageRequest
 import com.vikravch.compressor.R
 import com.vikravch.compressor.components.QualitySlider
 import com.vikravch.compressor.ui.theme.PhotoCompressorTheme
@@ -59,16 +60,18 @@ fun QualityParamPage(
                                     quality = quality.toFloat(),
                                     changeQuality = {
                                         viewModel.changeQuality(context, it.toInt())
-                                    }
+                                    },
+                                    bitmapLiveData = viewModel.imageBitmap
                                 )
                             }
                             Column(modifier = Modifier.weight(1f)) {
                                 SummarySection(
                                     modifier = Modifier.weight(1f),
                                     summaryText = viewModel.getSummaryText(
-                                        compressedSize = viewModel.compressedFile.value?.length()?:0,
                                         context = context,
-                                        template = R.string.summary_template
+                                        template = if (viewModel.initialSize > file.length())
+                                            R.string.summary_template else R.string.summary_larger_template
+
                                     ),
                                     openNextActivity = {
                                         openNextActivity()
@@ -84,14 +87,15 @@ fun QualityParamPage(
                             quality = quality.toFloat(),
                             changeQuality = {
                                 viewModel.changeQuality(context, it.toInt())
-                            }
+                            },
+                            bitmapLiveData = viewModel.imageBitmap
                         )
                         SummarySection(
                             modifier = Modifier.weight(1f),
                             summaryText = viewModel.getSummaryText(
-                                compressedSize = viewModel.compressedFile.value?.length()?:0,
                                 context = context,
-                                template = R.string.summary_template
+                                template = if (viewModel.initialSize > file.length())
+                                    R.string.summary_template else R.string.summary_larger_template
                             ),
                             openNextActivity = {
                                 openNextActivity()
@@ -107,25 +111,28 @@ fun QualityParamPage(
 
 @Composable
 fun ImageSliderSection(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     file: File,
     quality: Float,
-    changeQuality: (Float) -> Unit
-){
-    AsyncImage(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(file)
-            .memoryCachePolicy(CachePolicy.DISABLED)
-            .diskCachePolicy(CachePolicy.DISABLED)
-            .build(),
-        contentDescription = "Compressed Image",
-        modifier = modifier.fillMaxWidth(),
-        placeholder = painterResource(R.drawable.ic_photo)
-    )
+    changeQuality: (Float) -> Unit,
+    bitmapLiveData: LiveData<Bitmap?>
+) {
+    val bitmap = bitmapLiveData.observeAsState().value
+    if(bitmap == null){
+        AsyncImage(
+            model = file,
+            contentDescription = "Photo",
+            modifier = modifier.fillMaxWidth()
+        )
+    } else {
+        Image(
+            painter = BitmapPainter(bitmap.asImageBitmap()),
+            contentDescription = "Loaded Image",
+            modifier = modifier.fillMaxWidth()
+        )
+    }
 
-    QualitySlider(
-        quality
-    ) {
+    QualitySlider(quality){
         changeQuality(it)
     }
 }

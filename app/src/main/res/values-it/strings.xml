@@ -7,6 +7,7 @@
     <string name="next">Avanti</string>
     <string name="summary">Riepilogo:</string>
     <string name="summary_template">Dimensione iniziale: %1$d KB\nDimensione compressa: %2$d KB\nQualità: %3$d%%\nCompresso del %4$d%%\nDifferenza in Kilobyte: %5$d KB</string>
+    <string name="summary_larger_template">Dimensione iniziale: %1$d KB\nDimensione compressa: %2$d KB\nQualità: %3$d%%\nAumentata del %4$d%%\nDifferenza in KiloByte: %5$d KB</string>
     <string name="origin_photo_size">Dimensione foto originale: %1$d KB</string>
     <string name="compressed_photo_size">Dimensione foto compressa: %1$d KB</string>
     <string name="no_file_selected">Nessuna immagine selezionata</string>
